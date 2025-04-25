@@ -1,4 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -9,8 +16,68 @@ from .serializers import (
     HealthProgramSerializer, EnrollmentSerializer
 )
 
-# Create your views here.
+# User authentication views
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+        
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                # Redirect to the page the user was trying to access, or home
+                next_page = request.GET.get('next', reverse_lazy('index'))
+                return HttpResponseRedirect(next_page)
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = AuthenticationForm()
+    
+    return render(request, 'login.html', {'form': form})
 
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+        
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Add first name and last name if provided
+            first_name = request.POST.get('first_name', '')
+            last_name = request.POST.get('last_name', '')
+            email = request.POST.get('email', '')
+            if first_name or last_name or email:
+                user.first_name = first_name
+                user.last_name = last_name
+                user.email = email
+                user.save()
+            
+            # Log in the user after registration
+            login(request, user)
+            messages.success(request, f"Account created for {user.username}!")
+            return redirect('index')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'logout.html')
+
+# Main application views
+@login_required
 def index(request):
     """
     View function for the home page of the site.

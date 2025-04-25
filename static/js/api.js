@@ -6,8 +6,8 @@ async function fetchAPI(endpoint, options = {}) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            // Add authentication headers if needed, e.g.:
-            // 'Authorization': `Token ${localStorage.getItem('authToken')}`
+            // CSRF token needed for Django
+            'X-CSRFToken': getCookie('csrftoken'),
         },
     };
 
@@ -19,6 +19,12 @@ async function fetchAPI(endpoint, options = {}) {
 
     try {
         const response = await fetch(url, config);
+        if (response.status === 403 || response.status === 401) {
+            // Authentication error
+            window.location.href = '/login/?next=' + encodeURIComponent(window.location.pathname);
+            return null;
+        }
+
         if (!response.ok) {
             // Attempt to parse error details from response body
             let errorData;
@@ -40,6 +46,22 @@ async function fetchAPI(endpoint, options = {}) {
         alert(`Error: ${error.message}`); // Basic error feedback
         throw error; // Re-throw to allow caller handling
     }
+}
+
+// Function to get CSRF cookie
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 // --- Program API Calls ---

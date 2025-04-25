@@ -15,7 +15,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="loadClientsView()">Clients</a>
                     </li>
@@ -23,6 +23,12 @@
                         <a class="nav-link" href="#" onclick="loadProgramsView()">Programs</a>
                     </li>
                 </ul>
+                <div class="d-flex">
+                    <span class="navbar-text me-3">
+                        Welcome, {{ user.get_full_name|default:user.username }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Logout</a>
+                </div>
             </div>
         </div>
     </nav>

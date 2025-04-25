@@ -1,7 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initial view can be set here if desired, e.g., loadClientsView();
-    setupEventListeners();
+    // Check authentication and setup
+    checkAuthentication().then(isAuthenticated => {
+        if (isAuthenticated) {
+            setupEventListeners();
+            // Initial view
+            loadProgramsView();
+        }
+    });
 });
+
+// Check if user is authenticated by making a test API call
+async function checkAuthentication() {
+    try {
+        // Try to get programs - this will redirect to login if unauthenticated
+        await getPrograms();
+        return true;
+    } catch (error) {
+        console.error("Authentication check failed:", error);
+        return false;
+    }
+}
 
 const mainContent = document.getElementById('main-content');
 const addProgramModal = new bootstrap.Modal(document.getElementById('addProgramModal'));
