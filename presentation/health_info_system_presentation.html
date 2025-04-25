@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Information System - Presentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .slide {
+            page-break-after: always;
+            padding: 40px;
+            height: 650px;
+            position: relative;
+            border-bottom: 1px dashed #ccc;
+            margin-bottom: 30px;
+        }
+        .title-slide {
+            text-align: center;
+            background: linear-gradient(to bottom right, #2c3e50, #4ca1af);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .title-slide h2 {
+            color: #e0e0e0;
+            font-weight: normal;
+        }
+        h3 {
+            font-size: 24px;
+            color: #3498db;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            margin-bottom: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        .agenda-slide {
+            background-color: #f9f9f9;
+        }
+        .thanks-slide {
+            background: linear-gradient(to bottom right, #4ca1af, #2c3e50);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .thanks-slide a {
+            color: white;
+        }
+        .thanks-slide h2 {
+            color: white;
+        }
+        .column-2 {
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            width: 48%;
+        }
+        code {
+            background: #f8f8f8;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 14px;
+        }
+        .note {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Title Slide -->
+    <div class="slide title-slide">
+        <h1>Health Information System</h1>
+        <h2>Design, Approach, and Solution</h2>
+        <p>A comprehensive system for managing client health information</p>
+    </div>
+
+    <!-- Agenda Slide -->
+    <div class="slide agenda-slide">
+        <h2>Agenda</h2>
+        <ol>
+            <li>Introduction</li>
+            <li>Problem Statement</li>
+            <li>Objectives</li>
+            <li>Approach & Methodology</li>
+            <li>Technology Stack</li>
+            <li>System Design</li>
+            <li>Database Architecture</li>
+            <li>Features & Implementation</li>
+            <li>User Interface</li>
+            <li>Challenges & Solutions</li>
+            <li>Demo & Screenshots</li>
+            <li>Future Enhancements</li>
+            <li>Conclusion</li>
+        </ol>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Introduction Slide -->
+    <div class="slide">
+        <h2>1. Introduction</h2>
+        <ul>
+            <li>A comprehensive health information system for healthcare providers</li>
+            <li>Manages clients, health programs, and client enrollments</li>
+            <li>Secure and user-friendly web application</li>
+            <li>Built using modern technologies (Django & REST Framework)</li>
+        </ul>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Problem Statement Slide -->
+    <div class="slide">
+        <h2>2. Problem Statement</h2>
+        <p>Healthcare providers face challenges with:</p>
+        <ul>
+            <li>Manual record-keeping systems</li>
+            <li>Difficulty tracking patient enrollment in multiple programs</li>
+            <li>Limited data sharing across departments</li>
+            <li>Inefficient client search and retrieval</li>
+            <li>Lack of standardized data collection</li>
+        </ul>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Objectives Slide -->
+    <div class="slide">
+        <h2>3. Objectives</h2>
+        <ul>
+            <li>Create a centralized client health information repository</li>
+            <li>Enable efficient program management</li>
+            <li>Facilitate client registration and program enrollment</li>
+            <li>Provide robust search capabilities</li>
+            <li>Expose data via secure APIs for integration</li>
+            <li>Ensure data security and user authentication</li>
+        </ul>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Approach & Methodology Slide -->
+    <div class="slide">
+        <h2>4. Approach & Methodology</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Agile Development Process</h3>
+                <ul>
+                    <li>Iterative development with frequent feedback</li>
+                    <li>User-centered design principles</li>
+                    <li>Mobile-first responsive design</li>
+                    <li>Test-driven development</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Implementation Phases</h3>
+                <ol>
+                    <li>Requirement gathering and analysis</li>
+                    <li>System design and architecture</li>
+                    <li>Database schema design</li>
+                    <li>Core functionality implementation</li>
+                    <li>User interface development</li>
+                    <li>API development</li>
+                    <li>Testing and quality assurance</li>
+                    <li>Deployment and documentation</li>
+                </ol>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Technology Stack Slide -->
+    <div class="slide">
+        <h2>5. Technology Stack</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Backend</h3>
+                <ul>
+                    <li>Python 3.8+</li>
+                    <li>Django 5.0 (Web framework)</li>
+                    <li>Django REST Framework (API)</li>
+                    <li>SQLite (Database, can be migrated to PostgreSQL)</li>
+                </ul>
+                
+                <h3>Frontend</h3>
+                <ul>
+                    <li>HTML5, CSS3, JavaScript</li>
+                    <li>Bootstrap 5 (Responsive design)</li>
+                    <li>AJAX for asynchronous data loading</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Tools</h3>
+                <ul>
+                    <li>Git (Version control)</li>
+                    <li>GitHub (Repository hosting)</li>
+                    <li>VS Code (Development environment)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- System Design Slide -->
+    <div class="slide">
+        <h2>6. System Design</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Architecture</h3>
+                <ul>
+                    <li>Model-View-Template (MVT) pattern</li>
+                    <li>RESTful API architecture</li>
+                    <li>Session-based authentication</li>
+                    <li>Responsive frontend design</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Components</h3>
+                <ul>
+                    <li>Authentication system</li>
+                    <li>Client management module</li>
+                    <li>Program management module</li>
+                    <li>Enrollment system</li>
+                    <li>Search functionality</li>
+                    <li>API endpoints</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Database Architecture Slide -->
+    <div class="slide">
+        <h2>7. Database Architecture</h2>
+        <h3>Entity Relationship Diagram</h3>
+        <div class="column-2">
+            <div class="column">
+                <h4>Key Entities:</h4>
+                <ul>
+                    <li>User (Django built-in)</li>
+                    <li>Client</li>
+                    <li>HealthProgram</li>
+                    <li>Enrollment (Junction table)</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Relationships:</h4>
+                <ul>
+                    <li>Client ←→ HealthProgram (Many-to-Many through Enrollment)</li>
+                    <li>User ←→ Client (One-to-Many)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Features & Implementation Slide 1 -->
+    <div class="slide">
+        <h2>8. Features & Implementation (1/2)</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>User Authentication</h3>
+                <ul>
+                    <li>Secure login/logout functionality</li>
+                    <li>User registration with profile information</li>
+                    <li>Role-based permissions (future enhancement)</li>
+                </ul>
+                
+                <h3>Program Management</h3>
+                <ul>
+                    <li>Create and manage health programs (TB, HIV, etc.)</li>
+                    <li>Program status tracking (Active, Completed, Discontinued)</li>
+                    <li>Filtering and search capabilities</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Client Management</h3>
+                <ul>
+                    <li>Comprehensive client registration</li>
+                    <li>Client search functionality</li>
+                    <li>Client profile management</li>
+                </ul>
+                
+                <h3>Enrollment System</h3>
+                <ul>
+                    <li>Enroll clients in multiple programs</li>
+                    <li>Track enrollment status</li>
+                    <li>Monitor client participation</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- User Interface Slide -->
+    <div class="slide">
+        <h2>9. User Interface</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Design Principles</h3>
+                <ul>
+                    <li>Intuitive navigation</li>
+                    <li>Responsive layout for all devices</li>
+                    <li>Consistent visual language</li>
+                    <li>Accessibility considerations</li>
+                    <li>Clean and professional aesthetic</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Key Interface Components</h3>
+                <ul>
+                    <li>Dashboard for quick overview</li>
+                    <li>Card-based program display</li>
+                    <li>Client search and profile views</li>
+                    <li>Modal forms for data entry</li>
+                    <li>Status indicators and filters</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Challenges & Solutions Slide -->
+    <div class="slide">
+        <h2>10. Challenges & Solutions</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Challenges</h3>
+                <ul>
+                    <li>Complex relationships between entities</li>
+                    <li>Ensuring system performance with large datasets</li>
+                    <li>Intuitive UI for non-technical users</li>
+                    <li>Secure API implementation</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Solutions</h3>
+                <ul>
+                    <li>Optimized database schema design</li>
+                    <li>Efficient query optimization</li>
+                    <li>User experience research and iterative design</li>
+                    <li>Implementing proper authentication and permissions</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Demo & Screenshots Slide 1 -->
+    <div class="slide">
+        <h2>11. Demo & Screenshots (1/2)</h2>
+        <h3>Login & Registration</h3>
+        <img src="../docs/Screenshot%202025-04-25%20131207.png" alt="Login Screen">
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Demo & Screenshots Slide 2 -->
+    <div class="slide">
+        <h2>11. Demo & Screenshots (2/4)</h2>
+        <h3>Health Programs Dashboard</h3>
+        <img src="../docs/Screenshot%202025-04-25%20131249.png" alt="Health Programs Dashboard">
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Demo & Screenshots Slide 3 -->
+    <div class="slide">
+        <h2>11. Demo & Screenshots (3/4)</h2>
+        <h3>Client Management</h3>
+        <img src="../docs/Screenshot%202025-04-25%20131311.png" alt="Client Management">
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Demo & Screenshots Slide 4 -->
+    <div class="slide">
+        <h2>11. Demo & Screenshots (4/4)</h2>
+        <h3>Client Profile & Enrollment</h3>
+        <img src="../docs/Screenshot%202025-04-25%20131322.png" alt="Client Profile">
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Future Enhancements Slide -->
+    <div class="slide">
+        <h2>12. Future Enhancements</h2>
+        <ul>
+            <li><strong>Advanced Reporting:</strong> Generate custom reports and analytics</li>
+            <li><strong>Mobile Application:</strong> Native mobile interface for field workers</li>
+            <li><strong>Offline Capability:</strong> Work without internet connection</li>
+            <li><strong>Multilingual Support:</strong> Interface in multiple languages</li>
+            <li><strong>Integration:</strong> Connect with other healthcare systems via APIs</li>
+            <li><strong>Document Management:</strong> Upload and manage client documents</li>
+            <li><strong>Appointment Scheduling:</strong> Schedule and manage client appointments</li>
+        </ul>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Conclusion Slide -->
+    <div class="slide">
+        <h2>13. Conclusion</h2>
+        <div class="column-2">
+            <div class="column">
+                <h3>Benefits</h3>
+                <ul>
+                    <li>Improved client data management</li>
+                    <li>Enhanced program tracking</li>
+                    <li>Efficient client search and retrieval</li>
+                    <li>Centralized information repository</li>
+                    <li>Secure and controlled access</li>
+                    <li>API for system integration</li>
+                </ul>
+            </div>
+            <div class="column">
+                <h3>Success Factors</h3>
+                <ul>
+                    <li>User-centered design</li>
+                    <li>Modern technology stack</li>
+                    <li>Scalable architecture</li>
+                    <li>Comprehensive documentation</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">Health Information System</div>
+    </div>
+
+    <!-- Thank You Slide -->
+    <div class="slide thanks-slide">
+        <h2>Thank You!</h2>
+        <p>Repository: <a href="https://github.com/rotich254/health_info_system.git">https://github.com/rotich254/health_info_system.git</a></p>
+        <p>Contact: rotich254@gmail.com</p>
+    </div>
+</body>
+</html> 

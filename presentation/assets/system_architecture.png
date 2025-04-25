@@ -1,0 +1,8 @@
+[SYSTEM ARCHITECTURE DIAGRAM PLACEHOLDER]
+This image should represent a modern microservices architecture for the health information system, showing:
+- Frontend Web Application
+- API Gateway
+- Microservices (Patient Service, Appointment Service, EHR Service, Billing Service, etc.)
+- Database Layer
+- Analytics Engine
+- Security Layer 

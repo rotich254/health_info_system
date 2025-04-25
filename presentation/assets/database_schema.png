@@ -1,0 +1,9 @@
+[DATABASE SCHEMA DIAGRAM PLACEHOLDER]
+This image should illustrate the MongoDB schema design for the health information system, showing:
+- Patient collection
+- Doctor collection
+- Appointment collection
+- Medical records collection
+- Billing collection
+- Relationships between collections
+- Indexing strategy 
