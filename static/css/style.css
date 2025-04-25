@@ -1,0 +1,65 @@
+/* Add custom styles here */
+body {
+    padding-top: 56px; /* Adjust based on navbar height */
+}
+
+.client-card {
+    cursor: pointer;
+}
+
+.client-card:hover {
+    background-color: #f8f9fa;
+}
+
+/* Program card styling */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.border-success {
+    border-width: 2px;
+}
+
+.border-info {
+    border-width: 2px;
+}
+
+.border-secondary {
+    border-width: 2px;
+}
+
+.card-header {
+    padding: 0.75rem 1.25rem;
+}
+
+/* Filter buttons */
+.btn-group .btn {
+    padding: 0.375rem 1rem;
+}
+
+/* Status badge */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Status counts */
+.status-counts {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
+/* Animation for filter change */
+#programs-list > div {
+    transition: opacity 0.3s ease;
+}
+
+#programs-list > div[style*="display: none"] {
+    opacity: 0;
+} 

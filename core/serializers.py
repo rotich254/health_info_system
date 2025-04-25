@@ -4,7 +4,7 @@ from .models import Client, HealthProgram, Enrollment
 class HealthProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = HealthProgram
-        fields = ['id', 'name', 'description', 'created_at', 'is_active']
+        fields = ['id', 'name', 'description', 'created_at', 'status']
 
 class EnrollmentSerializer(serializers.ModelSerializer):
     program_name = serializers.CharField(source='program.name', read_only=True)

@@ -2,13 +2,23 @@ from django.db import models
 from django.utils import timezone
 
 class HealthProgram(models.Model):
+    STATUS_CHOICES = [
+        ('ACTIVE', 'Active'),
+        ('COMPLETED', 'Completed'),
+        ('DISCONTINUED', 'Discontinued')
+    ]
+    
     name = models.CharField(max_length=100)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ACTIVE')
 
     def __str__(self):
         return self.name
+    
+    @property
+    def is_active(self):
+        return self.status == 'ACTIVE'
 
 class Client(models.Model):
     GENDER_CHOICES = [

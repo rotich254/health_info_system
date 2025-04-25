@@ -11,6 +11,12 @@ from .serializers import (
 
 # Create your views here.
 
+def index(request):
+    """
+    View function for the home page of the site.
+    """
+    return render(request, 'index.html')
+
 class HealthProgramViewSet(viewsets.ModelViewSet):
     queryset = HealthProgram.objects.all()
     serializer_class = HealthProgramSerializer
