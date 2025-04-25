@@ -14,6 +14,11 @@ A comprehensive system for managing client health information, programs, and enr
 - **Client Profiles**: View detailed client information and program enrollments
 - **REST API**: Access client profiles and other data via API endpoints
 
+## Presentation
+
+Download the full presentation about this system:
+- [Health Information System Presentation (PowerPoint)](Health_Info_System_From_HTML.pptx)
+
 ## Screenshots
 
 ### Login and Registration

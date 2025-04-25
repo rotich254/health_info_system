@@ -234,4 +234,4 @@ Healthcare providers face challenges with:
 
 **Repository:** [https://github.com/rotich254/health_info_system.git](https://github.com/rotich254/health_info_system.git)
 
-**Contact:** [Your Contact Information] 
+**Contact:** rotichk254@gmail.com 
