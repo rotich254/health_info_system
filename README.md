@@ -40,7 +40,13 @@ A comprehensive system for managing client health information, programs, and enr
 
 1. **Clone or download the project**
 
-   Download and extract the project to a folder on your computer.
+   ```bash
+   # Clone the repository
+   git clone https://github.com/rotich254/health_info_system.git
+   cd health_info_system
+   ```
+   
+   Alternatively, you can download and extract the ZIP archive from the [GitHub repository](https://github.com/rotich254/health_info_system.git).
 
 2. **Set up a virtual environment** (recommended)
 
