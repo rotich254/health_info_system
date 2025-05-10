@@ -9,6 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Debounce function to limit how often a function can be called
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
+
 // Check if user is authenticated by making a test API call
 async function checkAuthentication() {
     try {
@@ -45,9 +55,38 @@ function setupEventListeners() {
         }
     });
 
+    // Set max date for date of birth input
+    const dobInput = document.getElementById('client-dob');
+    if (dobInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dobInput.setAttribute('max', today);
+        
+        // Additional validation on change
+        dobInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            const currentDate = new Date();
+            
+            if (selectedDate > currentDate) {
+                alert("Date of birth cannot be in the future!");
+                this.value = ''; // Reset the input
+            }
+        });
+    }
+
     // Client form submission
     document.getElementById('add-client-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // Validate date of birth
+        const dobInput = document.getElementById('client-dob');
+        const dobDate = new Date(dobInput.value);
+        const currentDate = new Date();
+        
+        if (dobDate > currentDate) {
+            alert("Date of birth cannot be in the future!");
+            return; // Prevent form submission
+        }
+        
         const clientData = {
             first_name: document.getElementById('client-first-name').value,
             last_name: document.getElementById('client-last-name').value,
@@ -242,7 +281,21 @@ function getStatusLabel(status) {
 async function loadClientsView(searchQuery = '') {
     renderLoading();
     try {
-        const clients = await getClients(searchQuery);
+        // Fetch all clients initially
+        const allClients = await getClients('');
+        let clients = allClients;
+        
+        // If there's a search query, filter the clients on the client side
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            clients = allClients.filter(client => 
+                client.first_name.toLowerCase().includes(query) || 
+                client.last_name.toLowerCase().includes(query) || 
+                (client.phone_number && client.phone_number.includes(query)) ||
+                (client.email && client.email.toLowerCase().includes(query))
+            );
+        }
+        
         let clientsHtml = `
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2>Clients</h2>
@@ -252,8 +305,9 @@ async function loadClientsView(searchQuery = '') {
                 <input type="text" id="client-search-input" class="form-control" placeholder="Search by name, phone, or email" value="${searchQuery}">
                 <button class="btn btn-outline-secondary" type="button" id="client-search-button">Search</button>
             </div>
-             <div class="list-group">
+            <div class="list-group" id="clients-list">
         `;
+        
         if (clients.length === 0) {
             clientsHtml += '<div class="list-group-item">No clients found.</div>';
         } else {
@@ -273,21 +327,86 @@ async function loadClientsView(searchQuery = '') {
         clientsHtml += '</div>';
         mainContent.innerHTML = clientsHtml;
 
-        // Add event listener for the search button *after* it's added to the DOM
+        // Store the original clients list for real-time filtering
+        mainContent.dataset.allClients = JSON.stringify(allClients);
+
+        // Add event listener for real-time search as user types with debounce
+        const handleSearch = debounce(function(e) {
+            const query = e.target.value.toLowerCase();
+            
+            // Show search indicator
+            const searchButton = document.getElementById('client-search-button');
+            const searchInput = document.getElementById('client-search-input');
+            
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Searching...';
+            searchButton.disabled = true;
+            
+            // Add a visual indicator to the search input
+            if (query) {
+                searchInput.classList.add('border-primary');
+            } else {
+                searchInput.classList.remove('border-primary');
+            }
+            
+            const storedClients = JSON.parse(mainContent.dataset.allClients);
+            
+            // Filter clients based on the current input
+            const filteredClients = storedClients.filter(client => 
+                client.first_name.toLowerCase().includes(query) || 
+                client.last_name.toLowerCase().includes(query) || 
+                (client.phone_number && client.phone_number.includes(query)) ||
+                (client.email && client.email.toLowerCase().includes(query))
+            );
+            
+            // Update the displayed list without refreshing the entire view
+            updateClientsList(filteredClients);
+            
+            // Reset search button
+            searchButton.innerHTML = 'Search';
+            searchButton.disabled = false;
+        }, 300); // 300ms debounce time
+        
+        document.getElementById('client-search-input').addEventListener('input', handleSearch);
+
+        // Keep the search button functionality for backward compatibility
         document.getElementById('client-search-button').addEventListener('click', () => {
             const query = document.getElementById('client-search-input').value;
             loadClientsView(query);
         });
-        // Add event listener for Enter key in search input
-        document.getElementById('client-search-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const query = document.getElementById('client-search-input').value;
-                loadClientsView(query);
-            }
-        });
 
     } catch (error) {
         mainContent.innerHTML = '<div class="alert alert-danger">Failed to load clients.</div>';
+    }
+}
+
+// Helper function to update the clients list without reloading the entire view
+function updateClientsList(clients) {
+    const clientsList = document.getElementById('clients-list');
+    if (!clientsList) return;
+    
+    // Add a counter above the list
+    const searchInput = document.getElementById('client-search-input');
+    const searchTerm = searchInput ? searchInput.value.trim() : '';
+    const resultsLabel = searchTerm ? 
+        `<div class="alert alert-info mb-2">Found ${clients.length} client(s) matching "${searchTerm}"</div>` : '';
+    
+    if (clients.length === 0) {
+        clientsList.innerHTML = resultsLabel + '<div class="list-group-item">No clients found.</div>';
+    } else {
+        let html = resultsLabel;
+        clients.forEach(client => {
+            html += `
+                <a href="#" class="list-group-item list-group-item-action client-card" onclick="loadClientProfile(${client.id})">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">${client.first_name} ${client.last_name}</h5>
+                        <small>ID: ${client.id}</small>
+                    </div>
+                    <p class="mb-1">DOB: ${client.date_of_birth}</p>
+                    <small>Phone: ${client.phone_number || 'N/A'}</small>
+                </a>
+            `;
+        });
+        clientsList.innerHTML = html;
     }
 }
 

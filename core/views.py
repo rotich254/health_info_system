@@ -15,6 +15,7 @@ from .serializers import (
     ClientSerializer, ClientBasicSerializer,
     HealthProgramSerializer, EnrollmentSerializer
 )
+from django.utils import timezone
 
 # User authentication views
 def login_view(request):
@@ -82,7 +83,8 @@ def index(request):
     """
     View function for the home page of the site.
     """
-    return render(request, 'index.html')
+    current_date = timezone.now().date()
+    return render(request, 'index.html', {'current_date': current_date})
 
 class HealthProgramViewSet(viewsets.ModelViewSet):
     queryset = HealthProgram.objects.all()
@@ -98,6 +100,46 @@ class ClientViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return ClientBasicSerializer
         return ClientSerializer
+
+    def create(self, request, *args, **kwargs):
+        # Validate date of birth is not in the future
+        date_of_birth = request.data.get('date_of_birth')
+        if date_of_birth:
+            try:
+                dob_date = timezone.datetime.strptime(date_of_birth, '%Y-%m-%d').date()
+                current_date = timezone.now().date()
+                if dob_date > current_date:
+                    return Response(
+                        {'error': 'Date of birth cannot be in the future.'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            except ValueError:
+                return Response(
+                    {'error': 'Invalid date format for date of birth.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return super().create(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        # Validate date of birth is not in the future
+        date_of_birth = request.data.get('date_of_birth')
+        if date_of_birth:
+            try:
+                dob_date = timezone.datetime.strptime(date_of_birth, '%Y-%m-%d').date()
+                current_date = timezone.now().date()
+                if dob_date > current_date:
+                    return Response(
+                        {'error': 'Date of birth cannot be in the future.'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+            except ValueError:
+                return Response(
+                    {'error': 'Invalid date format for date of birth.'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        
+        return super().update(request, *args, **kwargs)
 
     @action(detail=True, methods=['post'])
     def enroll(self, request, pk=None):

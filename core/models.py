@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 class HealthProgram(models.Model):
     STATUS_CHOICES = [
@@ -40,6 +41,12 @@ class Client(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def clean(self):
+        # Validate that date of birth is not in the future
+        if self.date_of_birth and self.date_of_birth > timezone.now().date():
+            raise ValidationError({'date_of_birth': 'Date of birth cannot be in the future.'})
+        super().clean()
     
     @property
     def age(self):

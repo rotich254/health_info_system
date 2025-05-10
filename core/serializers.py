@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Client, HealthProgram, Enrollment
+from django.core.exceptions import ValidationError
 
 class HealthProgramSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,6 +25,23 @@ class ClientSerializer(serializers.ModelSerializer):
             'gender', 'phone_number', 'email', 'address',
             'registration_date', 'last_updated', 'enrollments'
         ]
+        
+    def validate(self, data):
+        # Create a temporary instance to call clean method
+        instance = Client(**data)
+        if self.instance:
+            # If updating an existing instance, set the instance attributes
+            for attr, value in data.items():
+                setattr(self.instance, attr, value)
+            instance = self.instance
+        
+        # Call the model's clean method
+        try:
+            instance.clean()
+        except ValidationError as e:
+            raise serializers.ValidationError(e.message_dict)
+        
+        return data
 
 class ClientBasicSerializer(serializers.ModelSerializer):
     """Simplified serializer for list views"""
